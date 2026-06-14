@@ -1,65 +1,83 @@
-# Markdown To Word — Install & Setup
+# Markdown 转 Word 技能安装说明
 
-This skill is intentionally minimal: no remote API, no credential, no Python package install step beyond a system Python 3 and Pandoc.
+本技能是纯本地技能，不依赖远程 API，也不需要任何账号凭证。
 
-## 1. Prerequisites
+## 一、前置要求
 
-| Tool   | Version | Why                                          |
-| ------ | ------- | -------------------------------------------- |
-| Python | 3.8+    | runs `scripts/*.py`                          |
-| Pandoc | 2.19+   | does the actual Markdown → DOCX conversion   |
+| 工具 | 版本建议 | 用途 |
+| --- | --- | --- |
+| Python | 3.8+ | 运行 `scripts/*.py` |
+| Pandoc | 2.19+ | 执行 Markdown 转 DOCX |
 
-Verify locally:
+本机检查命令：
 
 ```bash
 python --version
 pandoc --version
 ```
 
-## 2. Install the skill
+## 二、获取技能
 
-### Option A — Claude Code & OpenCode (recommended)
+GitHub 仓库地址：
 
-Copy the entire `skill-markdown-to-word/` folder (not just `SKILL.md`) into one of these:
+```text
+https://github.com/JasonCai2024/skill-markdown-to-word
+```
 
-- Project-level: `<your-project>/.claude/skills/skill-markdown-to-word/`
-- Global:        `~/.claude/skills/skill-markdown-to-word/`
+克隆命令：
 
-### Option B — OpenCode only
+```bash
+git clone https://github.com/JasonCai2024/skill-markdown-to-word.git
+```
 
-You may also use:
+## 三、安装技能
 
-- `<your-project>/.opencode/skills/skill-markdown-to-word/`
+### 方案 A：Claude Code 与 OpenCode 共用
+
+把整个 `skill-markdown-to-word/` 文件夹复制到以下任一位置：
+
+- 项目级：`<你的项目>/.claude/skills/skill-markdown-to-word/`
+- 全局：`~/.claude/skills/skill-markdown-to-word/`
+
+### 方案 B：仅给 OpenCode 使用
+
+也可以复制到：
+
+- `<你的项目>/.opencode/skills/skill-markdown-to-word/`
 - `~/.config/opencode/skills/skill-markdown-to-word/`
 
-But Option A is recommended because OpenCode also reads `.claude/skills/`, so one copy serves both tools.
+但仍建议优先使用方案 A，因为 OpenCode 本身也会读取 `.claude/skills/`。
 
-### Option C — Optional Claude Code legacy command
+### 方案 C：可选的 Claude Code 兼容命令
 
-To maximise the chance of `skill-markdown-to-word` showing up in Claude Code's `/` completion list, you can additionally drop this minimal file at:
+如果希望更稳定地在 Claude Code 的 `/` 命令补全里看到本技能，可额外放一个命令文件到：
 
-`~/.claude/commands/skill-markdown-to-word.md`
+```text
+~/.claude/commands/skill-markdown-to-word.md
+```
+
+最小内容可写为：
 
 ```markdown
 ---
-description: Converts Markdown files to Word .docx via Pandoc, with image path fixes and DOCX table post-processing.
+description: 将 Markdown 文件转换为 Word .docx，并处理图片路径与表格样式。
 argument-hint: [markdown-file]
 ---
 
-Convert the given Markdown file to Word using the bundled skill.
-
-If no input path is provided in `$ARGUMENTS`, ask for it and stop.
-
-Prefer using:
+优先使用：
 
 `~/.claude/skills/skill-markdown-to-word/scripts/convert_markdown_to_word.py <input.md> [output.docx]`
 ```
 
-## 3. Reload & verify
+## 四、安装后验证
 
-- **Claude Code**: restart the CLI or start a new session, then type `/` and look for `skill-markdown-to-word`.
-- **OpenCode**: restart or open a new session; the skill should appear in the skill list.
+- Claude Code：重启或新开会话，输入 `/`，检查是否能看到 `skill-markdown-to-word`
+- OpenCode：重启或新开会话，检查技能列表中是否出现该技能
 
-## 4. Uninstall
+## 五、卸载
 
-Delete the folder you copied in step 2 (and the optional command file from step 2C if you created it). No system-level artefacts are left behind.
+删除你在第三步中复制过去的技能目录即可；如果额外安装了命令文件，也一并删除：
+
+```text
+~/.claude/commands/skill-markdown-to-word.md
+```
