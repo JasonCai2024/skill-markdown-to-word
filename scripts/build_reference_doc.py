@@ -23,6 +23,10 @@ def set_style_font(style, east_asia, ascii_font=None, size=None, bold=None, colo
     rfonts.set(qn("w:hAnsi"), ascii_font)
     rfonts.set(qn("w:eastAsia"), east_asia)
     rfonts.set(qn("w:cs"), ascii_font)
+    for attr in ("w:asciiTheme", "w:hAnsiTheme", "w:eastAsiaTheme", "w:cstheme"):
+        qname = qn(attr)
+        if rfonts.get(qname) is not None:
+            del rfonts.attrib[qname]
     if size is not None:
         font.size = Pt(size)
     if bold is not None:
@@ -39,6 +43,13 @@ def set_style_font(style, east_asia, ascii_font=None, size=None, bold=None, colo
             qname = qn(attr)
             if color_element.get(qname) is not None:
                 del color_element.attrib[qname]
+
+
+def get_style_by_id(doc, style_id):
+    for style in doc.styles:
+        if style.style_id == style_id:
+            return style
+    raise KeyError(style_id)
 
 
 def ensure_style(doc, name, style_type, base_style=None):
@@ -117,8 +128,8 @@ def configure_document():
     pf.line_spacing_rule = WD_LINE_SPACING.MULTIPLE
     pf.line_spacing = 1.5
 
-    heading1 = doc.styles["Heading 1"]
-    set_style_font(heading1, east_asia="SimHei", ascii_font="Times New Roman", size=15.5, bold=True, color=RGBColor(0, 0, 0))
+    heading1 = get_style_by_id(doc, "Heading1")
+    set_style_font(heading1, east_asia="SimHei", ascii_font="SimHei", size=15.5, bold=True, color=RGBColor(0, 0, 0))
     pf = heading1.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
     pf.first_line_indent = Pt(0)
@@ -126,8 +137,8 @@ def configure_document():
     pf.space_after = Pt(6)
     pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
 
-    heading2 = doc.styles["Heading 2"]
-    set_style_font(heading2, east_asia="SimHei", ascii_font="Times New Roman", size=14, bold=True, color=RGBColor(0, 0, 0))
+    heading2 = get_style_by_id(doc, "Heading2")
+    set_style_font(heading2, east_asia="SimHei", ascii_font="SimHei", size=14, bold=True, color=RGBColor(0, 0, 0))
     pf = heading2.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
     pf.first_line_indent = Pt(0)
@@ -135,14 +146,23 @@ def configure_document():
     pf.space_after = Pt(6)
     pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
 
-    heading3 = doc.styles["Heading 3"]
-    set_style_font(heading3, east_asia="SimHei", ascii_font="Times New Roman", size=12, bold=True, color=RGBColor(0, 0, 0))
+    heading3 = get_style_by_id(doc, "Heading3")
+    set_style_font(heading3, east_asia="SimHei", ascii_font="SimHei", size=12, bold=True, color=RGBColor(0, 0, 0))
     pf = heading3.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
     pf.first_line_indent = Pt(0)
     pf.space_before = Pt(0)
     pf.space_after = Pt(3)
     pf.line_spacing_rule = WD_LINE_SPACING.SINGLE
+
+    heading1_char = get_style_by_id(doc, "Heading1Char")
+    set_style_font(heading1_char, east_asia="SimHei", ascii_font="SimHei", size=15.5, bold=True, color=RGBColor(0, 0, 0))
+
+    heading2_char = get_style_by_id(doc, "Heading2Char")
+    set_style_font(heading2_char, east_asia="SimHei", ascii_font="SimHei", size=14, bold=True, color=RGBColor(0, 0, 0))
+
+    heading3_char = get_style_by_id(doc, "Heading3Char")
+    set_style_font(heading3_char, east_asia="SimHei", ascii_font="SimHei", size=12, bold=True, color=RGBColor(0, 0, 0))
 
     table_style = doc.styles["Table Grid"]
     set_style_font(table_style, east_asia="SimSun", ascii_font="Times New Roman", size=12, bold=False, color=RGBColor(0, 0, 0))

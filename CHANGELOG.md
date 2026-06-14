@@ -15,6 +15,7 @@
 - 修复 `assets/reference.docx` 中 `Heading 1 / Heading 2 / Heading 3` 继承 Office 默认主题蓝色的问题。
 - 更新 `scripts/build_reference_doc.py`，为标题与正文样式显式写入黑色字体，并清除 `w:themeColor / w:themeTint / w:themeShade` 继承，避免 Word 继续显示蓝色标题。
 - 重新生成 `assets/reference.docx`，确认转换后的标题样式保持黑体（SimHei）且颜色为黑色，正文保持宋体（SimSun）。
+- 进一步修复 `Heading1Char / Heading2Char / Heading3Char` 仍继承主题字体、导致 Word 回退为 `MS Gothic` 的问题；现在标题字符样式也已显式写入黑体（SimHei）并清除主题字体继承。
 
 ### Open Bugs
 
